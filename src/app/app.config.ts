@@ -37,7 +37,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: 'be2cb096-043a-44e5-9b35-0c981042ab5c',
       authority:
-        'https://chsb2corganization.b2clogin.com/chsb2corganization.onmicrosoft.com/B2C_1_SNJYA_VENDOR_DEV',
+        'https://chsb2corganization.b2clogin.com/chsb2corganization.onmicrosoft.com/B2C_1_SNJYA_VENDOR_DEV_SIGNIN',
       redirectUri: 'http://localhost:3000/api/auth/callback/azure-ad-b2c',
       postLogoutRedirectUri: 'http://localhost:3000',
       knownAuthorities: ['chsb2corganization.b2clogin.com'],
@@ -47,24 +47,21 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     },
     system: {
       allowPlatformBroker: false,
+      windowHashTimeout: 60000,
+      iframeHashTimeout: 6000,
       loggerOptions: {
         loggerCallback,
-        logLevel: LogLevel.Info,
+        logLevel: LogLevel.Warning,
         piiLoggingEnabled: false,
       },
     },
   });
-
-  msalInstance.initialize();
 
   return msalInstance;
 }
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', [
-    'user.read',
-  ]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -77,9 +74,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     interactionType: InteractionType.Redirect,
     authRequest: {
       scopes: ['openid'],
-      extraQueryParameters: {
-        response_mode: 'form_post',
-      },
     },
     loginFailedRoute: '/login-failed',
   };
