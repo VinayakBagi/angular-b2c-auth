@@ -12,6 +12,9 @@ import { CommonModule } from '@angular/common';
 
       <div *ngIf="!isLoggedIn">
         <button (click)="login()">Login</button>
+        <button (click)="signup()">Sign Up</button>
+        <button (click)="resetPassword()">Reset Password</button>
+        <button (click)="logout()">Logout</button>
       </div>
 
       <div *ngIf="isLoggedIn">
@@ -152,6 +155,18 @@ export class HomeComponent implements OnInit {
   }
 
   login() {
+    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_SIGNIN', 'store');
+  }
+
+  signup() {
+    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_SIGNUP', 'store');
+  }
+
+  resetPassword() {
+    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_PWRESET', 'store');
+  }
+
+  private initiateAuthFlow(flowId: string, state: string) {
     // Clear any existing fragments to avoid confusion
     if (window.location.hash) {
       window.history.replaceState(
@@ -164,10 +179,9 @@ export class HomeComponent implements OnInit {
     // Use direct URL redirect instead of MSAL to avoid token exchange issues
     const clientId = 'be2cb096-043a-44e5-9b35-0c981042ab5c';
     const redirectUri = encodeURIComponent(
-      'http://localhost:3000/api/auth/callback/azure-ad-b2c'
+      'https://dev-vendor-ch-supplies.cfapps.us10-001.hana.ondemand.com/'
     );
-    const authority =
-      'https://chsb2corganization.b2clogin.com/chsb2corganization.onmicrosoft.com/B2C_1_SNJYA_VENDOR_DEV_SIGNIN';
+    const authority = `https://chsb2corganization.b2clogin.com/chsb2corganization.onmicrosoft.com/${flowId}`;
 
     // Build the authorization URL manually
     const authUrl =
@@ -177,7 +191,7 @@ export class HomeComponent implements OnInit {
       `redirect_uri=${redirectUri}&` +
       `response_mode=fragment&` +
       `scope=openid%20profile%20email&` +
-      `state=${generateRandomState()}`;
+      `state=${state}`;
 
     console.log('Redirecting to:', authUrl);
     window.location.href = authUrl;
@@ -196,7 +210,7 @@ export class HomeComponent implements OnInit {
     const authority =
       'https://chsb2corganization.b2clogin.com/chsb2corganization.onmicrosoft.com/B2C_1_SNJYA_VENDOR_DEV_SIGNIN';
     const logoutUrl = `${authority}/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(
-      'http://localhost:3000'
+      'https://dev-vendor-ch-supplies.cfapps.us10-001.hana.ondemand.com/'
     )}`;
     window.location.href = logoutUrl;
   }

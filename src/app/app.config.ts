@@ -38,8 +38,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       clientId: 'be2cb096-043a-44e5-9b35-0c981042ab5c',
       authority:
         'https://chsb2corganization.b2clogin.com/chsb2corganization.onmicrosoft.com/B2C_1_SNJYA_VENDOR_DEV_SIGNIN',
-      redirectUri: 'http://localhost:3000/api/auth/callback/azure-ad-b2c',
-      postLogoutRedirectUri: 'http://localhost:3000',
+      redirectUri:
+        'https://dev-vendor-ch-supplies.cfapps.us10-001.hana.ondemand.com/',
+      postLogoutRedirectUri:
+        'https://dev-vendor-ch-supplies.cfapps.us10-001.hana.ondemand.com/',
       knownAuthorities: ['chsb2corganization.b2clogin.com'],
     },
     cache: {

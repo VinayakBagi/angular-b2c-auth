@@ -7,4 +7,18 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: '<router-outlet></router-outlet>',
 })
-export class AppComponent {}
+export class AppComponent {
+  ngOnInit(): void {
+    const hash = window.location.hash;
+    const state = hash.match(/state=([^&]+)/)?.[1];
+
+    if (state === 'store') {
+      window.location.hash = '#/store';
+    }
+
+    // Optional cleanup
+    if (hash.includes('code=')) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+}
