@@ -159,11 +159,11 @@ export class HomeComponent implements OnInit {
   }
 
   signup() {
-    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_SIGNUP', 'store');
+    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_SIGNUP', 'signup');
   }
 
   resetPassword() {
-    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_PWRESET', 'store');
+    this.initiateAuthFlow('B2C_1_SNJYA_VENDOR_DEV_PWRESET', 'reset');
   }
 
   private initiateAuthFlow(flowId: string, state: string) {
